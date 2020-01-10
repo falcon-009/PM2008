@@ -1,20 +1,18 @@
-#ifndef _PM2008_H
-#define _PM2008_H
+#ifndef _PM2008_UART_H
+#define _PM2008_UART_H
 
 #include <Arduino.h>
-#include "pm2008_uart.h"
-#include "pm2008_i2c.h"
 
 #define BUF_LEN   64
 
-class PM2008:public pm2008_uart, public PM2008_I2C
+class pm2008_uart
 {
   public:
-    void        begin(void);
-    void        begin(void *interface);
-    // boolean     open();
-    void        update(void);
-    // boolean     close();
+    void        begin(HardwareSerial *serial);
+    boolean     open();
+    void        update();
+    boolean     close();
+    
     uint8_t     status;
     String      sw_version;
     String      serial_num;
@@ -34,7 +32,7 @@ class PM2008:public pm2008_uart, public PM2008_I2C
     uint32_t    number_of_10_um;
   
   private:
-    void       *interface;
+    HardwareSerial  *ptrSerial;
     void        getVersion();
     void        getSerialNumber();
     byte        rxd_uart[BUF_LEN];
